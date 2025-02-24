@@ -28,15 +28,15 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 1 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Name: Grant Zhao </div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-grantz/">https://cal-cs184-student.github.io/hw-webpages-grantz</a>
 		
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/hw-webpages-grantz">https://github.com/cal-cs184-student/hw-webpages-grantz</a>
 
 		<figure>
 			<img src="lion.jpg" alt="Lion" style="width:50%"/>
@@ -51,7 +51,16 @@
 		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		From the function, we are given three (x,y) coordinates of the triangle to be rasterized. However, we are unsure if the coordinates are in clockwise or counter-clockwise order which is important to find
+		 if a point is inside of the triangle or not. To do this, we use the formula from Discussion,((x1-x0)(y2-y1)-(x2-x1)(y1-y0)) where if it negative, the winding order is clockwise which is not what we want. If we find that it is negative,
+		 then we swap two points to make it counter-clockwise. Then we create the tightest bounding box of the triangle by finding the maximum and minimum of the x and y coordinates. Then we loop through all the points inside this box checking if the center of the pixel is within the triangle by
+		 using the point-in-triangle test -(x - x0) * (y1 - y0) + (y - y0) * (x1 - x0). We do this for each of the three lines and if all return non-negative, then it is within the triangle so we color the pixel. My algorithm is no worse than one that checks each sample within the bounding box of the triangle as I created the tighest bounding box of the triangle
+		 and checked each sample inside the box so by definition, we should be no worse. Below is a png screenshot of basic/test4.svg with the pixel inspector centered on an interesting part.
+
+		<figure>
+			<img src="Task1.png" alt="Task4" style="width:50%"/>
+			<figcaption>A break in the sampling? Seems interesting</figcaption>
+		</figure>
 
 		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">

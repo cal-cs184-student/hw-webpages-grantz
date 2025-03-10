@@ -28,15 +28,15 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 2 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Name: Grant Zhao</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-grantz/">https://cal-cs184-student.github.io/hw-webpages-grantz/</a>
 
 		<br>
 		
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/hw-webpages-grantz">https://github.com/cal-cs184-student/hw-webpages-grantz</a>
 
 		<figure>
 			<img src="teapot.png" alt="Teapot" style="width:50%"/>
@@ -53,44 +53,87 @@
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		The de Casteljau's algorithm is an algorithm with a given set of control points and a parameter, that recursively does linear interpolation
+		to compute intermediate control points and arrive at a single control point that lies on the Bezier curve at the given parameter. I implemented
+		the algorithm by computing a single recursive step by taking in a vector of control points and a parameter t, and calculating (1-t) * p_i + t * p_(i+1),  
+		for each pair of consecutive points. Then we recursively pass in these new intermediate points to calculate the next set of control points.
+		Below is a step by step visual of how the Bezier Curve is calculated from 6 control points.
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  	<img src="Task1_1.png" width="400px"/>
+				  	<figcaption>6 Control points</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  	<img src="Task1_2.png" width="400px"/>
+				  	<figcaption>First step</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="Task1_3.png" width="400px"/>
+					<figcaption>Second step</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+					<img src="Task1_4.png" width="400px"/>
+					<figcaption>Third Step</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="Task1_5.png" width="400px"/>
+				  <figcaption>Fourth Step</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="Task1_6.png" width="400px"/>
+				  <figcaption>Final Step</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="Task1_7.png" width="400px"/>
+					<figcaption>Slightly different Bezier curve by moving original control points and modifying the parameter t via mouse scrolling</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
 		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		The de Casteljau algorithm extends to Bezier surfaces by taking each row of control points as its own Bezier curve with a parameter of u. This results in each row outputting
+		a point. Then we evaluate the resulting points of each row as its own Bezier curve again with parameter v. We applied de Casteljau's algorithm to find a point P thare lies on the Bezier surface
+		given the parameters of u and v. I implemented this by applying the de Casteljau's algorithm in two helper functions where one calculates one step of the algorithm while the other calls on this function
+		recursively until the final point is obtained. For the main function, we apply the algorithm through our two helper functions to each row of the control point matrix with parameter u to get a set of final points
+		where each row represents one point. Then we make one more run of the algorithm on these final points with parameter v to get a point on the Bezier surface.
+		<figure>
+			<img src="Task2_1.png" alt="Teapot" style="width:50%"/>
+			<figcaption>Screenshot of bez/teapot.bez</figcaption>
+		</figure>
 
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
 		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+		First we use the example from the primer with the do/while loop to traverse neighboring faces incident to our vertex using the half-edge datastructure. We do this using the h->twin()->next() for each iteration and stop until we return back to our
+		original half-edge. To compute our area-weighted normal, we initialize an all zero vector. For each face, we take in the given half-edge corresponding to the face and get the positions of each of the three vertex. Then we calculate the area of the face, we use
+		the formula of taking the cross product of v1-v0 and v2-v0 and taking half of the norm of this. We then weight the normal by multiplying the area of the face with the unit normal. We add this to our initialized vector and continue the loop. We then return the unit or normalize the sum of all area-weighted normals.
+		<figure>
+			<img src="Task3_1.png" alt="Teapot" style="width:50%"/>
+			<figcaption>Without vertex normals</figcaption>
+		</figure>
+		<figure>
+			<img src="Task3_2.png" alt="Teapot" style="width:50%"/>
+			<figcaption>With vertex normals</figcaption>
+		</figure>
 		<h3>Part 4: Edge flip</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		I implemented the edge flip operations with the helpful website given on Ed http://15462.courses.cs.cmu.edu/fall2015content/misc/HalfedgeEdgeOpImplementationGuide.pdf which has allowed me to implement this part with ease. We could have implemented 
+		this is many different ways as the half-edges chosen could be different but I basically followed the directions from this website and encountered no issue. Below are the images before and after some edges were flipped.
+		<figure>
+			<img src="Task4_1.png" alt="Teapot" style="width:50%"/>
+			<figcaption>Before Edge flips</figcaption>
+		</figure>
+		<figure>
+			<img src="Task4_2.png" alt="Teapot" style="width:50%"/>
+			<figcaption>After Edge flips</figcaption>
+		</figure>
 
 		<h3>Part 5: Edge split</h3>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

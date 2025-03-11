@@ -40,7 +40,7 @@
 
 		<figure>
 			<img src="teapot.png" alt="Teapot" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<figcaption>Teapot!</figcaption>
 		</figure>
 
 		<!--
@@ -48,7 +48,8 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		This homework focuses on creating Bezier Curves and Surfaces mainly focusing on the de Casteljau's algorithm and working with triangle meshes through the half-Edge Data Structure. Such functions include
+		flipping and splitting operations as well as loop subdivision!
 
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
@@ -136,24 +137,130 @@
 		</figure>
 
 		<h3>Part 5: Edge split</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+		I implemented the edge split operation similar to part 4 where I drew a simple mesh and wrote down the list of all elements. An image below shows the results. After drawing, it became simple where I had to reassign pointers in code. For the code, it pretty much was a copy paste of part 4 but with 6 new half-edges, a new vertex, 3 new edges, and 2 new faces.
+		I did not really encounter any debugging as drawing out the mesh first was a way to minimize errors in my code.  
+		<figure>
+			<img src="Task5_1.png" alt="Teapot" style="width:50%"/>
+			<figcaption>Mesh drawing</figcaption>
+		</figure>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  	<img src="Task5_2.png" width="400px"/>
+				  	<figcaption>Mesh before</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  	<img src="Task5_3.png" width="400px"/>
+				  	<figcaption>Mesh with edge splits</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="Task5_2.png" width="400px"/>
+					<figcaption>Mesh before</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="Task5_4.png" width="400px"/>
+				  <figcaption>Mesh with both edge splits and flips</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		Implementing the loop subdivision became easy with the hints provided in the code. First, we loop through all the old vertices and compute the new position. We do this by finding the position of every neighboring vertex and adding them together
+		and using the degree of the vertex, we calculate u where u=3/16 if n=3 and 3/(8n) otherwise. Once done, we calculate the new position of the old vertex with (1 - n * u) * original_position + u * original_neighbor_position_sum. Then we compute the 
+		new positions for the new vertices created by looping through every original edge of the mesh and getting the position of the four vertices of the two triangles
+		(A,B,C) and (B,C,D) and then setting the new position to 3/8 * (A + B) + 1/8 * (C + D). Next we go through every edge and split them and also checking if they were an old edge since we do not want to resplit a new edge. Then we flip any new edge that 
+		connects an old and new vertex by checking if only one vertex is new. Finally, we go through every vertex and set the position to the new position. Some outside implementation is adding isNew to the new edges and vertex in split edge code to make sure that we set isNew to true when a new edge is made.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  	<img src="Task6_1.png" width="400px"/>
+				  	<figcaption>Cow before</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  	<img src="Task6_2.png" width="400px"/>
+				  	<figcaption>Cow 1 subdivision</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="Task6_3.png" width="400px"/>
+					<figcaption>Cow 2 subdivisions</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="Task6_4.png" width="400px"/>
+					<figcaption>Torus before</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="Task6_5.png" width="400px"/>
+				  <figcaption>Torus 1 subdivision</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="Task6_6.png" width="400px"/>
+				  <figcaption>Torus 2 subdivisions</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		From the screenshots of loop subidivison on a cow mesh and a torus mesh, we can see that the sharp corners and edges become more smoother as more loop subdivisions are done due to more edges and vertices
+		being created after splitting and flipping. And yes, you can reduce this effect by pre-splitting some edges to make the subdivisions less uniform around the shape. We can see this with the cube below where the vertices and edges
+		are not uniform around. This leads to the cube becoming more oval/egg like in shape. The triangles in the mesh are not symmetrical and subdivision can lead to uneven triangles being formed.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  	<img src="Task6_7.png" width="400px"/>
+				  	<figcaption>Cube before</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  	<img src="Task6_8.png" width="400px"/>
+				  	<figcaption>Cube 1 subdivision</figcaption>
+				</td>
+				
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="Task6_9.png" width="400px"/>
+					<figcaption>Cube 2 subdivision</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="Task6_10.png" width="400px"/>
+				  <figcaption>Cube 3 subdivision</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		Therefore, we want to pre-process the cube with some splits so that the cube can subdivide symmetrically. We do this by splitting every original edge to make an X shape on each face of the cube.
+		This creates a symmetricaly cube with symmetrical triangles making up the mesh. We can see below how this makes subdivision much more smoother and symmetrical, leading to a shape similar to a sphere. In other words, the splits from 
+		subdivision are done equally throughout each face due to the triangles being symmetrical.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  	<img src="Task6_11.png" width="400px"/>
+				  	<figcaption>Cube before with new splits</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  	<img src="Task6_12.png" width="400px"/>
+				  	<figcaption>Cube 1 subdivision</figcaption>
+				</td>
+				
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="Task6_13.png" width="400px"/>
+					<figcaption>Cube 2 subdivision</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="Task6_14.png" width="400px"/>
+				  <figcaption>Cube 3 subdivision</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 		</div>
 	</body>
 </html>
